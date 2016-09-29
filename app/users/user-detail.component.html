@@ -1,0 +1,122 @@
+<div class="row" *ngIf="user">
+  <div class="col-md-10 ">
+    <form class="form-horizontal" #userForm="ngForm">
+      <!-- Form Name -->
+      <legend>{{user.firstName}} (id: {{user.id}}) details:</legend>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="firstName">First name</label>
+        <div class="col-md-4">
+          <input id="firstName"
+                 [(ngModel)]="user.firstName"
+                 name="firstName"
+                 type="text"
+                 placeholder="John"
+                 class="form-control"
+                 required
+                 #firstName="ngModel">
+          <small [hidden]="firstName.valid" class="text-danger">
+            First name required
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="lastName">Last name</label>
+        <div class="col-md-4">
+          <input id="lastName"
+                 [(ngModel)]="user.lastName"
+                 name="lastName"
+                 type="text"
+                 placeholder="Smith"
+                 class="form-control">
+        </div>
+      </div>
+
+      <!-- File Button -->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="avatar">Upload avatar</label>
+        <div class="col-md-4">
+          <input id="avatar" name="avatar" class="input-file" type="file" (change)="changeAvatar($event)">
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="email">Email Address</label>
+        <div class="col-md-4">
+          <input id="email"
+                 name="email"
+                 type="text"
+                 [(ngModel)]="user.email"
+                 placeholder="email@example.com"
+                 required
+                 class="form-control"
+                 #email="ngModel">
+
+          <small [hidden]="email.valid" class="text-danger">
+            Email is required
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-2 control-label">Role</label>
+        <div class="col-md-4">
+          <select name="role" [(ngModel)]="user.role">
+            <option  *ngFor="let role of possibleRoles"  [value]="role">{{role}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Password input-->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="password">Password</label>
+        <div class="col-md-4">
+          <input id="password"
+                 name="password"
+                 type="password"
+                 [(ngModel)]="user.password"
+                 class="form-control"
+                 validateEqual="passwordConfirmation"
+                 reverse="true"
+                 #password="ngModel">
+        </div>
+      </div>
+
+      <!-- Password Confirmation input-->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="passwordConfirmation">Password Confirmation</label>
+        <div class="col-md-4">
+          <input id="passwordConfirmation"
+                 name="passwordConfirmation"
+                 type="password"
+                 [(ngModel)]="user.passwordConfirmation"
+                 class="form-control"
+                 validateEqual="password"
+                 reverse="false"
+                 #passwordConfirmation="ngModel">
+
+          <small [hidden]="passwordConfirmation.valid" class="text-danger">
+            Password mismatch
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+          <button (click)="goBack()" class="btn btn-primary">Back</button>
+          <button (click)="save()" [disabled]="!userForm.valid" class="btn btn-success">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-2 hidden-xs">
+    <img src="" [hostSrc]="user.avatarUrl" class="img-responsive img-thumbnail ">
+  </div>
+</div>
+
+
+

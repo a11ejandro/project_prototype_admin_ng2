@@ -1,0 +1,13 @@
+<div class = "container">
+  <div class="wrapper">
+    <form class="form-signin">
+      <h3 class="form-signin-heading">Welcome Back! Please Sign In</h3>
+      <hr class="colorgraph"><br>
+
+      <input type="text" [(ngModel)]="user.email" class="form-control" name="email" placeholder="email" required="" autofocus="" />
+      <input type="password" [(ngModel)]="user.password" class="form-control" name="password" placeholder="password" required=""/>
+
+      <button class="btn btn-primary btn-lg btn-block" (click)="signIn($event)" name="Submit" value="Login" type="Submit">Login</button>
+    </form>
+  </div>
+</div>
