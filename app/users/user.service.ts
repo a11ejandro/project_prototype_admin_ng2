@@ -13,9 +13,9 @@ export class UserService {
   constructor(private http: Http, private config: ConfigService) {
     this.usersUrl = config.getApiEndpoint() + this.usersUrl;
 
-    let restToken = localStorage.getItem('rest_token');
+    let authToken = localStorage.getItem('auth_token');
     this.headers.append('Content-Type', 'application/json');
-    this.headers.append('rest-token', restToken);
+    this.headers.append('auth-token', authToken);
   }
 
   getUsers(params: URLSearchParams): Promise<Object> {
@@ -55,7 +55,7 @@ export class UserService {
     let formData: FormData = new FormData();
     formData.append("avatar", avatar, avatar.name);
     let headers = new Headers();
-    headers.append('rest-token', localStorage.getItem('rest_token'));
+    headers.append('auth-token', localStorage.getItem('auth_token'));
     headers.append('Content-Type', undefined);
 
     return this.http

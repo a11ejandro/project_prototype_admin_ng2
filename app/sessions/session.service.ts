@@ -11,8 +11,8 @@ export class SessionService {
   private currentUser: User;
 
   constructor(private http: Http, private config: ConfigService) {
-    let restToken = localStorage.getItem('rest_token');
-    this.loggedIn = !!restToken;
+    let authToken = localStorage.getItem('auth_token');
+    this.loggedIn = !!authToken;
     this.sessionsUrl = this.config.getApiEndpoint() + this.sessionsUrl;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser')) as User
   }
@@ -24,12 +24,12 @@ export class SessionService {
     return this.http
       .post(
         `${this.sessionsUrl}/sign_in`,
-        JSON.stringify({ email, password }),
+        JSON.stringify({ email, password, platform: 'web' }),
         { headers }
       ).toPromise()
       .then((response) => {
           let result = response.json().result;
-          localStorage.setItem('rest_token', result.rest_token);
+          localStorage.setItem('auth_token', result.auth_token);
           localStorage.setItem('currentUser', JSON.stringify(result));
           this.loggedIn = true;
           this.currentUser = result as User;
@@ -39,11 +39,11 @@ export class SessionService {
   }
 
   signOut(): Promise<any> {
-    let restToken = localStorage.getItem('rest_token');
+    let authToken = localStorage.getItem('auth_token');
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('rest-token', restToken);
-    localStorage.removeItem('rest_token');
+    headers.append('auth-token', authToken);
+    localStorage.removeItem('auth_token');
     localStorage.removeItem('currentUser');
 
     return this.http
@@ -54,7 +54,7 @@ export class SessionService {
       ).toPromise()
       .then((response) => {
         let result = response.json().result;
-        localStorage.removeItem('rest_token');
+        localStorage.removeItem('auth_token');
         this.loggedIn = false;
         return result;
       })
